@@ -125,7 +125,7 @@ class PureHttp {
     instance.interceptors.response.use(
       (response: PureHttpResponse) => {
         const { data } = response;
-        console.log("data--->", data);
+        console.log("response--->", response);
         const $config = response.config;
         // 关闭进度条动画
         NProgress.done();

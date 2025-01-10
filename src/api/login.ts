@@ -49,3 +49,7 @@ export const refreshTokenApi = (data?: object) => {
 export const getCaptcha = () => {
   return http.request<Captcha>("get", `${prefix}/getCaptcha`, {});
 };
+
+export const getAccessToken = () => {
+  return http.request("get", `/auth/token`, {});
+};

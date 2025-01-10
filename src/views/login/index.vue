@@ -33,6 +33,7 @@ import Check from "@iconify-icons/ep/check";
 import User from "@iconify-icons/ri/user-3-fill";
 import Info from "@iconify-icons/ri/information-line";
 import {getQueryString} from "@/utils/auth";
+import {getAccessToken} from "@/api/login";
 
 defineOptions({
   name: "Login"
@@ -76,20 +77,25 @@ const onLogin = async (formEl: FormInstance | undefined) => {
         })
         .then(res => {
           let target = getQueryString("target");
+          if (target != null) {
+            window.location.href = target;
+          }
+          var accessToken = getAccessToken();
+          console.log("accessToken--->", accessToken);
           // 获取后端路由
-          return initRouter().then(() => {
-            disabled.value = true;
-            if (target != null) {
-              // window.location.href = target;
-            } else {
-              router
-                .push(getTopMenu(true).path)
-                .then(() => {
-                  message("登录成功", { type: "success" });
-                })
-                .finally(() => (disabled.value = false));
-            }
-          });
+          // return initRouter().then(() => {
+          //   disabled.value = true;
+          //   if (target != null) {
+          //     // window.location.href = target;
+          //   } else {
+          //     router
+          //       .push(getTopMenu(true).path)
+          //       .then(() => {
+          //         message("登录成功", { type: "success" });
+          //       })
+          //       .finally(() => (disabled.value = false));
+          //   }
+          // });
         })
         .finally(() => (loading.value = false));
     } else {
