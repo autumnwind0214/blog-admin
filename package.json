@@ -64,6 +64,7 @@
     "axios": "^1.6.7",
     "china-area-data": "^5.0.1",
     "cropperjs": "^1.6.1",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
     "echarts": "^5.5.0",
     "el-table-infinite-scroll": "^3.0.3",

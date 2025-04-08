@@ -1,6 +1,6 @@
 import { http } from "@/utils/http";
 
-const prefix = "/auth-api";
+const prefix = "/system-api";
 
 export type UserResult = {
   /** 用户名 */

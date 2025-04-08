@@ -2,7 +2,6 @@
 import { useI18n } from "vue-i18n";
 import Motion from "./utils/motion";
 import { useRouter } from "vue-router";
-import { message } from "@/utils/message";
 import { loginRules } from "./utils/rule";
 import phone from "./components/phone.vue";
 import TypeIt from "@/components/ReTypeit";
@@ -17,14 +16,12 @@ import { $t, transformI18n } from "@/plugins/i18n";
 import { operates, thirdParty } from "./utils/enums";
 import { useLayout } from "@/layout/hooks/useLayout";
 import { useUserStoreHook } from "@/store/modules/user";
-import { initRouter, getTopMenu } from "@/router/utils";
 import { bg, avatar, illustration } from "./utils/static";
 import { ReImageVerify } from "@/components/ReImageVerify";
-import { ref, toRaw, reactive, watch, computed } from "vue";
+import { ref, toRaw, reactive, watch, computed, onMounted } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { useTranslationLang } from "@/layout/hooks/useTranslationLang";
 import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
-
 import dayIcon from "@/assets/svg/day.svg?component";
 import darkIcon from "@/assets/svg/dark.svg?component";
 import globalization from "@/assets/svg/globalization.svg?component";
@@ -32,8 +29,7 @@ import Lock from "@iconify-icons/ri/lock-fill";
 import Check from "@iconify-icons/ep/check";
 import User from "@iconify-icons/ri/user-3-fill";
 import Info from "@iconify-icons/ri/information-line";
-import {getQueryString} from "@/utils/auth";
-import {getAccessToken} from "@/api/login";
+import { getQueryString } from "@/utils/auth";
 
 defineOptions({
   name: "Login"
@@ -65,6 +61,15 @@ const ruleForm = reactive({
   captchaId: ""
 });
 
+// onMounted(() => {
+//   const target = getQueryString("target");
+//   const code = getQueryString("code");
+//   if (target == null && code == null) {
+//     window.location.href =
+//       "http://127.0.0.1:9080/system-api/oauth2/authorize?client_id=messaging-client&response_type=code&scope=openid%20profile%20message.read%20message.write&redirect_uri=http://127.0.0.1:9999/login";
+//   }
+// });
+
 const onLogin = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
@@ -78,10 +83,12 @@ const onLogin = async (formEl: FormInstance | undefined) => {
         .then(res => {
           let target = getQueryString("target");
           if (target != null) {
-            window.location.href = target;
+            target = target.replace("login#/login", "");
+            // window.location.href = target;
+            // console.log("target--->", target);
           }
-          var accessToken = getAccessToken();
-          console.log("accessToken--->", accessToken);
+          // var accessToken = getAccessToken();
+          // console.log("accessToken--->", accessToken);
           // 获取后端路由
           // return initRouter().then(() => {
           //   disabled.value = true;
