@@ -29,7 +29,7 @@ import {
   type DataInfo,
   userKey,
   removeToken,
-  multipleTabsKey
+  multipleTabsKey, getQueryString
 } from "@/utils/auth";
 
 /** 自动导入全部静态路由，无需再手动引入！匹配 src/router/modules 目录（任何嵌套级别）中具有 .ts 扩展名的所有文件，除了 remaining.ts 文件
@@ -193,7 +193,14 @@ router.beforeEach((to: ToRouteType, _from, next) => {
         next();
       } else {
         removeToken();
-        next({ path: "/login" });
+        const target = getQueryString("target");
+        const code = getQueryString("code");
+        if (target == null && code == null) {
+          window.location.href =
+                "http://127.0.0.1:9080/system-api/oauth2/authorize?client_id=messaging-client&response_type=code&scope=openid%20profile%20message.read%20message.write&redirect_uri=http://127.0.0.1:9999/login";
+        } else {
+          next({ path: "/login" });
+        }
       }
     } else {
       next();

@@ -83,7 +83,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
         .then(res => {
           let target = getQueryString("target");
           if (target != null) {
-            target = target.replace("login#/login", "");
+            // target = target.replace("login#/login", "");
             // window.location.href = target;
             // console.log("target--->", target);
           }
